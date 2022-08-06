@@ -4,6 +4,8 @@ import (
 	"todo-list-server/api"
 	"todo-list-server/middleware"
 
+	docs "todo-list-server/docs"
+
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-contrib/sessions/cookie"
 	"github.com/gin-gonic/gin"
@@ -15,6 +17,7 @@ import (
 func NewRouter() *gin.Engine {
 	r := gin.Default() //生成了一个WSGI应用程序实例
 	store := cookie.NewStore([]byte("something-very-secret"))
+	docs.SwaggerInfo.BasePath = "/api/v1"
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler)) // 开启swag
 	r.Use(sessions.Sessions("mysession", store))
 	r.Use(middleware.Cors())

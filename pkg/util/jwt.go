@@ -11,8 +11,8 @@ var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
 
 type Claims struct {
 	Id        uint   `json:"id"`
-	Username  string `json:"Username"`
-	Authority int    `json:"Authority"`
+	Username  string `json:"username"`
+	Authority int    `json:"authority"`
 	jwt.StandardClaims
 }
 
@@ -29,8 +29,8 @@ func GenerateToken(id uint, username string, authority int) (string, error) {
 			Issuer:    "todo-list-server",
 		},
 	}
-	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
-	token, err := tokenClaims.SignedString((jwtSecret))
+	tokenClaims := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	token, err := tokenClaims.SignedString(jwtSecret)
 	return token, err
 }
 
